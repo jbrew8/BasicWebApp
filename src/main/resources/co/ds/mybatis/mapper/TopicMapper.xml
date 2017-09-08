@@ -4,8 +4,16 @@
 
 	<cache/>
 
-	<select id="list" resultType="Subscriber">
+	<select id="list" resultType="Topic">
 		select id, name from topic order by name
 	</select>
+
+	<select id="fetch" resultType="Topic">
+		select id, name from topic where id = #{id}
+	</select>
+
+	<insert id="update" parameterType="Topic">
+		update topic set name=#{name} where id = #{id}
+	</insert>
 
 </mapper>

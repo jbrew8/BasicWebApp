@@ -9,11 +9,14 @@ import com.google.inject.Inject;
 import net.sourceforge.stripes.action.*;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationErrorHandler;
+import net.sourceforge.stripes.validation.ValidationErrors;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @UrlBinding("/subscriber")
-public class SubscriberAction extends BaseAction {
+public class SubscriberAction extends BaseAction implements ValidationErrorHandler {
 
 	private static final String LIST_FORWARD = "/WEB-INF/jsp/subscriber/list.jsp";
 	private static final String FORM_FORWARD = "/WEB-INF/jsp/subscriber/form.jsp";
@@ -102,5 +105,12 @@ public class SubscriberAction extends BaseAction {
 
 	public void setTopics(final List<Topic> topics) {
 		this.topics = topics;
+	}
+
+	// ValidationErrorHandler implementation
+    // If a validation error occurs, the form is re-initialized so that the list of topics is retained.
+	@Override
+	public Resolution handleValidationErrors(ValidationErrors validationErrors) throws Exception {
+		return form();
 	}
 }
